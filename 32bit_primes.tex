@@ -1,0 +1,91 @@
+\def\qed{{\it Q.e.d.}}
+
+SEARCH FOR ALL 32-BIT PRIMES BY SIEVE OF ERATOSTHENES
+
+{\it September, 2023}
+
+Abstract
+
+Prime numbers are widely used in cryptographic systems. However, the strength of popular chipers
+depends on the selection of the number considered prime. Short primes can be guessed, and large ones
+either require primality tests, which are not strict, or are available for prior study by the attacker.
+
+One possibility to eliminate this vulnerability is to devise a system that uses many relatively short primes
+in a way where the attacker must know all of them before he can read the message. 
+The "short primes" must be abundant and easy to compute to support such a system.
+We demonstrate in Part 1 that the regular modern computer can build and manipulate the complete list of
+32-bit prime numbers. Also, Part 2 discusses the random selection of a prime within a much greater range,
+specifically, 64-bit.
+
+Let's use the sieve of Eratosthenes, the well-known and very simple method to find small prime numbers.
+The very simple yet mathematically strict foundation makes the practical computer implementation a good
+scholarly exercise. This article targets an audience without a mathematical background.
+
+Part 1
+
+A natural number is {\it prime,\/} if it divides by two numbers, $1$ and itself. ($1$ is not considered a prime.)
+The series of prime numbers is infinite and starts with
+$$
+2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,  ...
+$$
+In a contrast, {\it a composite\/} number can be represented by a product of two or more primes.
+
+{\bf Observation 1.} Except for $2$ and $3$, all primes can be expressed by the following formula:
+$$
+6n\pm 1, \quad\hbox{where\ } n\in N \eqno (1)
+$$
+
+(Notation $\hbox{\it something}\in N$ is used to tell that is it a natural number or a positive integer number.)
+
+{\bf Proof.} Any number can be expressed as $6n+k$, where $n$ and $k$ are natural, and $0\le k<6$. Except
+for $k=1$ and $k=5$, expression $6n+k$ divides by $2$, or $3$, or both. $5$ is the same as $-1$ modulo $6$.
+The prime number $5$ corresponds to $n=1$ and ``$-$'' sign in (1).
+\qed
+
+For practical applications, it is convenient to tabulate the first 9 primes, and then use (1)
+starting with $n=5$. We also don't have to verify the division by $2$ and $3$ when testing the primality of the
+numbers calculated by formula (1).
+
+The sieve of Eratosthenes method tests a prime candidate by dividing it by all possible prime numbers
+smaller than the number under test. The main theorem of number theory (any natural number is the product of one or
+multiple primes) guarantees that {\it if\/}  a number passes Eratosthenes' sieve, {\it then\/} it also cannot be
+divided by any natural number except itself or $1$.
+
+Let $T$ be a prime candidate and $p_k$ be a known prime. By Euclid's division lemma,
+$$
+T=q p_k + r, \quad \hbox{where $q, r \in N,$ and\ } 0\le r<p_k. \eqno (2)
+$$
+
+If such a $p_k < T$ is found that $r=0$, the Eratosthenes' sieve stops and $T$ is {\bf not} a prime.
+Let's prove, however, that the amount of testing can be further reduced.
+
+{\bf Lemma 1.} To verify whether $T$ is a prime, it is enough to try primes up to $\sqrt{T}$.
+Specifically, {\it the stop condition\/} is $p_k^2>T$. If we see the $k$-th prime that satisfies the Lemma's condition,
+we don't have to test it. The last prime number we have to verify is $p_{k-1}$.
+
+{\bf Proof.\/} Before $p_k$, we already tested all primes $2, 3, ... p_{k-1}$, and $T$ cannot be divided
+by any of them. Let's show that $T$ cannot be divided by $p_k$ or by any larger number, excluding $T$ itself.
+
+If $p>T$, the statement is trivial.
+
+Consider an integer $p$ in the range $p_k\le p<T$. If $T$ is divisible by $p$, then the $q$ exists such that
+$T=pq$. Further, $q$ can be represented as product of one or more primes: $q=q_1 q_2$, where $q_1$ is prime
+and $q_2\ge 1$. That also makes $q_1\le q$ (otherwise, the equilibrium above cannot be true).
+Taking all of the above together, write:
+$$
+p_k^2 > T = pq \ge p_k q \ge p_k q_1,
+\quad \Rightarrow \quad
+q_1 < p_k,
+$$
+and $q_1$ divides $T$, and it is prime. Contradiction. So $T$ cannot be divided by such $p$ numbers, starting with
+$p_k$. \qed
+
+{\bf Teorem 1a} The stop condition is coming from test division of $T$ by $p_k$.
+Let neither of prime numbers $p_1$, $p_2$, ... $p_{k-1}$ be a divisor of $T$
+For the next prime number $p_k$, let $q$ be the whole part of $T/p_k$ according to formula (2).
+If the $q<p_k$, then none of $p \ge p_k$, not equal to $T$, can be a divisor of $T$.
+
+{\bf Proof.\/} 
+
+
+\bye
