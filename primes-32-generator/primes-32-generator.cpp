@@ -30,7 +30,7 @@ sklib::crc_32_iso Checksum;
 // TODO: need reversal
 uint64_t provide_6n1(uint64_t idx)
 {
-    return 3*idx + 4 + (~idx & 1);
+    return 3*idx + 5 - (idx & 1);
 }
 
 static constexpr int erth_false      = 0x00;
@@ -67,6 +67,8 @@ int main(int argn, char *argc[])
     std::vector<uint32_t> Record;
     Record.push_back(2);
     Record.push_back(3);
+    Checksum.update_integer_lsb<uint32_t>(2);
+    Checksum.update_integer_lsb<uint32_t>(3);
     fout << "2\n3\n";
 
     sklib::timer_stopwatch_type strobe(1000);
