@@ -12,6 +12,7 @@
 #include <sklib/include/cmdpar.hpp>
 #include <sklib/include/checksum.hpp>
 #include <sklib/include/bitwise.hpp>
+#include <sklib/include/math.hpp>
 
 static constexpr uint32_t SearchBound = sklib::supplement::bits_data_mask<uint32_t>();
 static constexpr uint32_t UpdateBound = (uint32_t)(SearchBound / 2);
@@ -54,6 +55,7 @@ int eratosphenes(uint32_t value, std::vector<uint32_t>& record)
 
 // counting starts from 3-5; index 0 is gap 2, 1->4, 2->6, etc
 uint32_t gap_hist[sklib::OCTET_ADDRESS_SPAN] = {0};
+uint32_t igap_hist[sklib::OCTET_ADDRESS_SPAN] = {0};
 
 int main(int argn, char *argc[])
 {
@@ -75,6 +77,7 @@ int main(int argn, char *argc[])
     uint32_t nrecords = 0;
     uint32_t hist_large = 0;
     uint32_t prev_prime = 3;
+    uint32_t prev_idx = 0;
 
     uint32_t idx = 0;
     for (;;idx++)
@@ -99,6 +102,10 @@ int main(int argn, char *argc[])
             if (hidx < sklib::OCTET_ADDRESS_SPAN) gap_hist[hidx]++; else hist_large++;
             prev_prime = value;
 
+            hidx = idx - prev_idx;
+            prev_idx = idx;
+            if (hidx < sklib::OCTET_ADDRESS_SPAN) igap_hist[hidx]++;
+
             // ensure that the very last element is greater than 2^{N/2}
             // so the last division in Eratosphenes returns dividend less than 2^{N/2}
             if (Record.back() <= UpdateBound) Record.push_back(value);
@@ -117,7 +124,7 @@ int main(int argn, char *argc[])
         std::ofstream gout(Options.gap);
         for (int i=0; i<sklib::OCTET_ADDRESS_SPAN; i++)
         {
-            gout << 2*(i+1) << "," << gap_hist[i] << "\n";
+            gout << 2*(i+1) << "," << gap_hist[i] << "," << i << "," << igap_hist[i] << "\n";
         }
         gout << 2*(sklib::OCTET_ADDRESS_SPAN+1) << "," << hist_large << "\n";
     }
