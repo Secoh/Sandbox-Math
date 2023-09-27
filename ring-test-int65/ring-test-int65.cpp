@@ -17,17 +17,15 @@ int i64_sign(int64_t V)
 int main()
 {
     sklib::timer_stopwatch_type strobe(1000);
+    sklib::random_size_integer_device<int32_t, 31> RND;
 
     srand((unsigned)time(nullptr));
 
     uint64_t K = 0;
     while (true)
     {
-        int64_t A = (rand() & 0xFFF) + ((rand() & 0xFFF) << 12);
-        if (rand() & 1) A = -A;
-        int64_t B = (rand() & 0xFFF) + ((rand() & 0xFFF) << 12);
-        if (rand() & 1) B = -B;
-
+        int64_t A = RND();
+        int64_t B = RND();
         sklib::signed_uint<uint64_t> exA{A};
         sklib::signed_uint<uint64_t> exB{B};
 

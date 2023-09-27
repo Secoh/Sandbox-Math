@@ -2,7 +2,6 @@
 //
 
 #include <iostream>
-//#include <cstdio>
 #include <random>
 
 #include <SKLib/sklib.hpp>
@@ -11,28 +10,17 @@
 int main()
 {
     sklib::timer_stopwatch_type strobe(1000);
-
-    // https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<uint64_t> distrib;
+    sklib::random_size_integer_device<int64_t, 63> RND;
+    sklib::random_size_integer_device<uint64_t, 64> uRND;
 
     uint64_t K = 0;
     while (true)
     {
-        uint64_t A = distrib(gen);
-        uint64_t B = distrib(gen);
+        int64_t iA = RND();
+        int64_t iB = RND();
 
-        int64_t iA = (A >> 1);
-        if (A & 1) iA = -iA;
-
-        int siB = 3 + ((B >> 1) & 0x03);
-        int64_t iB = (B >> siB);
-        if (B & 1) iB = -iB;
-        
-        uint64_t sB = 4 + ((B >> 2) & 0x03);
-        sklib::signed_uint<uint64_t> exA{ A, bool(B&1) };
-        sklib::signed_uint<uint64_t> exB{ (B>>sB), bool(B&2) };
+        sklib::signed_uint<uint64_t> exA{ uRND(), (iA >= 0) };
+        sklib::signed_uint<uint64_t> exB{ uRND(), (iB >= 0) };
 
         if (iB)
         {

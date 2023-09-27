@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ring-test-int65", "ring-tes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ring-test-ediv-int", "ring-test-ediv-int\ring-test-ediv-int.vcxproj", "{772F4D1E-C036-4FAC-AB24-911565C642C0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "random-test-range", "random-test-range\random-test-range.vcxproj", "{955BFED4-5E7D-4811-BA58-9612DACCFCAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{772F4D1E-C036-4FAC-AB24-911565C642C0}.Release|x64.Build.0 = Release|x64
 		{772F4D1E-C036-4FAC-AB24-911565C642C0}.Release|x86.ActiveCfg = Release|Win32
 		{772F4D1E-C036-4FAC-AB24-911565C642C0}.Release|x86.Build.0 = Release|Win32
+		{955BFED4-5E7D-4811-BA58-9612DACCFCAC}.Debug|x64.ActiveCfg = Debug|x64
+		{955BFED4-5E7D-4811-BA58-9612DACCFCAC}.Debug|x64.Build.0 = Debug|x64
+		{955BFED4-5E7D-4811-BA58-9612DACCFCAC}.Debug|x86.ActiveCfg = Debug|Win32
+		{955BFED4-5E7D-4811-BA58-9612DACCFCAC}.Debug|x86.Build.0 = Debug|Win32
+		{955BFED4-5E7D-4811-BA58-9612DACCFCAC}.Release|x64.ActiveCfg = Release|x64
+		{955BFED4-5E7D-4811-BA58-9612DACCFCAC}.Release|x64.Build.0 = Release|x64
+		{955BFED4-5E7D-4811-BA58-9612DACCFCAC}.Release|x86.ActiveCfg = Release|Win32
+		{955BFED4-5E7D-4811-BA58-9612DACCFCAC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
