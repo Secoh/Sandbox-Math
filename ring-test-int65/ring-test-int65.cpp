@@ -1,4 +1,16 @@
-// ring-test-int65.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// Thie purpose of this software is to debug certain functions of SKLib, and to provide example how to use them:
+//      Singed integer simulator (unsigned integer plus sign bit)
+//
+// Written by Secoh, 2023 // https://github.com/Secoh/Sandbox-Math
+//
+// This is free and unencumbered software released into the public domain.
+// For more information, please refer to: http://unlicense.org/
+//
+// Software is distributed on "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//
+// In any jurisdiction where the Unlicense is not recognized, the following terms shall apply:
+// Copyright [2020-2023] Secoh
+// Licensed under the MIT License, see: https://opensource.org/license/mit/
 //
 
 #include <iostream>
