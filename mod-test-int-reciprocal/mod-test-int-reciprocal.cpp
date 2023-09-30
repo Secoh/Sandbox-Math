@@ -25,6 +25,7 @@ int main()
 //    sklib::random_size_integer_device<uint64_t, 64> uR64;
 
     static constexpr uint32_t P32 = 4294967231UL;
+//    static constexpr uint16_t P16 = 64901U;
 
     uint64_t K = 0;
     while (true)
@@ -33,6 +34,12 @@ int main()
         if (!A32) continue;
 
         sklib::modp<uint32_t> F(P32, A32);
+        if (!F())
+        {
+            std::cout << "Zero input: A=" << A32 << " F=" << F()
+                      << " mod " << P32 << "\n";
+            continue;
+        }
 
         auto G = F.reciprocal();
 
@@ -41,7 +48,8 @@ int main()
         if (!M.is_valid() || M() != 1)
         {
             std::cout << "Error, Modular Reciprocal 32 is incorrect\n"
-                      << "F=" << F() << " G=" << G() << " mod " << P32 << "\n";
+                      << "A=" << A32 << " F=" << F() << " G=" << G()
+                      << " M=" << M() << " mod " << P32 << "\n";
             return 1;
         }
 
