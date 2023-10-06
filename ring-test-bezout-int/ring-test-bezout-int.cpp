@@ -15,6 +15,7 @@
 
 #include <iostream>
 
+#define SKLIB_TARGET_TEST
 #include <SKLib/sklib.hpp>
 #include <SKLib/include/math.hpp>
 
@@ -52,9 +53,9 @@ int main()
             auto D = sklib::bezout(exA, exB, kA, kB);
 
             // verify kA*exA + kB*exB == D
-            auto tmpA = sklib::implementation::uint_extend_t<uint64_t>(kA.abs()).mul(exA.abs());
-            auto tmpB = sklib::implementation::uint_extend_t<uint64_t>(kB.abs()).mul(exB.abs());
-            auto diff = sklib::implementation::uint_extend_t<uint64_t>(D.abs());
+            auto tmpA = sklib::opaque::uint_extend_t<uint64_t>(kA.abs()).mul(exA.abs());
+            auto tmpB = sklib::opaque::uint_extend_t<uint64_t>(kB.abs()).mul(exB.abs());
+            auto diff = sklib::opaque::uint_extend_t<uint64_t>(D.abs());
             if (sklib::bool_xor((kA.sign()>0), (exA.sign()>0))) diff.add(tmpA); else diff.sub(tmpA);
             if (sklib::bool_xor((kB.sign()>0), (exB.sign()>0))) diff.add(tmpB); else diff.sub(tmpB);
 

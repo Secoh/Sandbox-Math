@@ -15,6 +15,7 @@
 
 #include <iostream>
 
+#define SKLIB_TARGET_TEST
 #include <SKLib/sklib.hpp>
 #include <SKLib/include/math.hpp>
 
@@ -26,7 +27,7 @@ bool do_test(T A, uint64_t& hi_count)
 {
     if (A < 5) return true;
 
-    auto V = sklib::implementation::uint_extend_t<T>(A).sub(2).mul(A).add(4);
+    auto V = sklib::opaque::uint_extend_t<T>(A).sub(2).mul(A).add(4);
     if (V.hi()) hi_count++;
 
     auto U = V;  // for reporting

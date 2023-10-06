@@ -16,6 +16,7 @@
 #include <iostream>
 #include <random>
 
+#define SKLIB_TARGET_TEST
 #include <SKLib/sklib.hpp>
 #include <SKLib/include/math.hpp>
 
