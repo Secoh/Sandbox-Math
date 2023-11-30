@@ -4,7 +4,7 @@ def log10(x) :
     return math.log(x) / math.log(10);
 
 def str_x_or_lg(nm, x) :   # def. lg(x) := log10(x)
-    if x < 1e16 :
+    if x < 1e200 :
         return nm + " " + str(x);
     return "lg " + nm + " " + str(log10(x));
 

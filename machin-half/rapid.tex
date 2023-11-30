@@ -499,7 +499,7 @@ $$
 q_{n+1} > q_n^2.
 $$
 
-Let us recalculate the estimation for $q_n$ via $q_0$.
+Let us recalculate the estimation for $q_n$ via $q_1$.
 {\bf Lemma.\/}
 %
 \begin{equation}\mlabel{estimate-qn1}
@@ -584,7 +584,7 @@ and then substitute that into~\mref{lehmer}.
 $n=0:\quad$ & $\lg q_0$ \\
 $n=1:$ & $\lg q_1 \ge \lg 2 + \lg q_0 > \lg q_0$ \\
 $\dots$ \\
-$n>1:$ & $\lg q_n > 2^{n-1} (\lg 2 + \lg q_0) > 2^{n-1} \lg q_0$ \\
+$n>1:$ & $\lg q_n > 2^{n-1} \lg q_1 > 2^{n-1} \lg q_0$ \\
 \end{tabular}
 \end{center}%
 }\hss}}\end{equation}
@@ -701,7 +701,7 @@ def log10(x) :
     return math.log(x) / math.log(10);
 
 def str_x_or_lg(nm, x) :   # def. lg(x) := log10(x)
-    if x < 1e16 :
+    if x < 1e200 :
         return nm + " " + str(x);
     return "lg " + nm + " " + str(log10(x));
 
@@ -791,13 +791,13 @@ The program takes $q_0$ in the input and builds the corresponding Machin-like id
 For the cases when the running variables become too large, there is an option
 to terminate the calculation and make the formula partial. The program prints the starting
 multiplier $m$, denominators $q_k$, the signs $\delta_k$, and the Lehmer's
-measure $\lambda$ in the end. If a $q_k$ is too large for display, its decimal logarithm
-is printed. For sanity check, the computed $\pi$ is also printed.
+measure $\lambda$ in the end. If a $q_k$ is too large for display (we selected the limit of $200$ digits),
+its decimal logarithm is printed. For sanity check only, the computed $\pi$ is also printed.
 
 A few outputs for various $q_0$ are listed below.
 
 %\pagebreak
-The Machin identity, $q_0 = 5$:
+At $q_0 = 5$, the program prints the original Machin identity:
 \begin{verbatim}
 M 4 Q 5
 (-) Q 239
@@ -806,17 +806,132 @@ Lehm 1.851127652316856
 Pi 3.1415926535897936
 \end{verbatim}
 
-Related to famous approximation of $\pi \approx 22/7$ (see, for example,~\cite{source-pi}),
-identity for $q_0 = 28$. Notice that $\log_{10} q_n$ almost exactly doubles on each step.
-(Also notice that we cannot rely on the precision of the floating point computations.)
+Let us provide the following identities to demonstrate how to interpret
+the Python program output. The numbers can be copy-pasted into a software
+capable of scientific computations such as Mathematica to validate the results of our study.
+
+For $q_0 = 7$:
+\begin{verbatim}
+M 6 Q 7
+(-) Q 15
+(+) Q 1712
+(-) Q 8886139
+(+) Q 2526830931360443
+---
+Lehm 2.551666609279759 
+Pi 3.1415926535897936
+\end{verbatim}
+
+The listing above corresponds to the expression
+$$
+\begin{array}{l}
+6 \arctan\dfrac{1}{7} - \arctan\dfrac{1}{15} + \arctan\dfrac{1}{1712} \\[0.75em]
+\phantom{0} - \arctan\dfrac{1}{8886139} + \arctan\dfrac{1}{2526830931360443}
+\end{array}
+$$
+
+The code to enter to Wolfram Alpha\hfill\break
+(link: {\tt https://www.wolframalpha.com/input\/})
+\begin{verbatim}
+Pi/4 == 6 ArcTan[1/7] - ArcTan[1/15] + ArcTan[1/1712]
+    - ArcTan[1/8886139] + ArcTan[1/2526830931360443] 
+\end{verbatim}
+
+\pagebreak
+For $q_0 = 8$.
+Notice that while Python supports arbitrarily long integers, it {\it does not\/}
+support arbitrary precision floating point numbers:
+\begin{verbatim}
+M 6 Q 8
+(+) Q 25
+(-) Q 1407
+(+) Q 4150619
+(+) Q 77950325308084
+(+) Q 28355848339635153147414863515
+(-) Q 2412162405181169014685016537064715579879917878585649329193
+---
+Lehm 2.4159383360928026 
+Pi 3.141592653589793
+\end{verbatim}
+$$
+\begin{array}{l}
+6 \arctan\dfrac{1}{8}
++ \arctan\dfrac{1}{25}
+- \arctan\dfrac{1}{1407}
++ \arctan\dfrac{1}{4150619} \\[0.75em]
++\, \arctan\dfrac{1}{77950325308084}
++ \arctan\dfrac{1}{28355848339635153147414863515} \\[0.75em]
+-\, \arctan\dfrac{1}{2412162405181169014685016537064715579879917878585649329193}
+\end{array}
+$$
+
+\begin{verbatim}
+
+Pi/4 ==
+6 ArcTan[1/8] + ArcTan[1/25] - ArcTan[1/1407] + ArcTan[1/4150619]
+    + ArcTan[1/77950325308084]
+    + ArcTan[1/28355848339635153147414863515]
+    - ArcTan[1/24121624051811690146850165370
+               64715579879917878585649329193]
+\end{verbatim}
+
+For $q_0=9$:
+\begin{verbatim}
+M 7 Q 9
+(+) Q 93
+(+) Q 22055
+(+) Q 5085558009
+(+) Q 767266041127734416424
+(+) Q 1766091533603478722982708121680411788426907
+---
+Lehm 1.9607629078499424 
+Pi 3.1415926535897927
+
+Pi/4 == 7 ArcTan[1/9] + ArcTan[1/93] + ArcTan[1/22055]
+    + ArcTan[1/5085558009] + ArcTan[1/767266041127734416424]
+    + ArcTan[1/1766091533603478722982708121680411788426907]
+\end{verbatim}
+
+\pagebreak
+For $q_0=10$:
+\begin{verbatim}
+M 8 Q 10
+(-) Q 84
+(-) Q 21342
+(-) Q 991268848
+(-) Q 193018008592515208050
+(-) Q 197967899896401851763240424238758988350338
+(-) Q 117573868168175352930277752844194126767991
+      915008537018836932014293678271636885792397
+---
+Lehm 1.9473700443296986 
+Pi 3.141592653589794
+
+Pi/4 == 8 ArcTan[1/10] - ArcTan[1/84] - ArcTan[1/21342]
+    - ArcTan[1/991268848] - ArcTan[1/193018008592515208050]
+    - ArcTan[1/197967899896401851763240424238758988350338]
+    - ArcTan[1/117573868168175352930277752844194126767991
+               915008537018836932014293678271636885792397]
+\end{verbatim}
+
+Related to the famous approximation of $\pi \approx 22/7$ (see, for example,~\cite{source-pi}),
+expression for $q_0 = 28$. For the sake of performance, numbers longer than $200$ decimal digits
+are represented as their decimal logarithms. While, strictly speaking, the listing below is no longer
+an identity, one can reproduce this test and output exact integer numbers for this Machin-like
+formula.
+Notice that $\log_{10} q_n$ almost exactly doubles on each step.
 \begin{verbatim}
 M 22 Q 28
 (+) Q 56547
 (+) Q 20747394343
-(+) lg Q 21.04617220101903
-(-) lg Q 43.22166310018087
-(+) lg Q 87.28671660737137
-(+) lg Q 175.16786332224112
+(+) Q 1112172624652580034840
+(-) Q 16659543628852678157467292276729792021493732
+(+) Q 19351587917741573692739048650182250035782554284801229
+      80428023197249578624178441690588894
+(+) Q 14718492206740001931852838656976183022784010091410392
+      42953147036168205460675285916208006732990521412670908
+      69513168086930986444104325857945434713227531064709901
+      94861973862674124
 (-) lg Q 350.7305238264204
 (-) lg Q 702.0893561664352
 (+) lg Q 1404.5900031211877
@@ -834,23 +949,28 @@ M 22 Q 28
 (-) lg Q 5756072.228487223
 (-) lg Q 11512146.246898009
 ---
-Lehm 1.091872372535026
+Lehm 1.091872372535026 
 Pi 3.141592653589793
 \end{verbatim}
 
-\pagebreak
+%\pagebreak
 To illustrate how Lehmer's measure decreases with the first term decrease, the following is
-the example with $q_0 = 100000$. Notice that~\mref{lehmer-switch} provides a close but
+the example with $q_0 = 100000$. Partial mode is on.
+Notice that~\mref{lehmer-switch} provides a close but
 somewhat larger bound $\lambda < 0.6$.
 
 \begin{verbatim}
 M 78540 Q 100000
 (-) Q 544491
 (+) Q 783664894308
-(+) lg Q 24.11497405058788
-(+) lg Q 48.88286698955339
-(+) lg Q 98.55845084078331
-(-) lg Q 198.10159175604355
+(+) Q 1303088915612811138696591
+(+) Q 7636018810382840305552700218709810164960367081459
+(+) Q 3617852367571966985355152435997587992571879865162469
+      49685961215997793793692115231994619217388993130
+(-) Q 1263548033106645763782664751160149068356817307489653
+      3051095395918146583179586035763817403459556538268035
+      7855957343101646766103100085828143285482786260424809
+      4974093639535779278903243063902741055991584
 (+) lg Q 396.72088863680796
 (-) lg Q 793.8533155269043
 (-) lg Q 1588.4525139699301
@@ -866,7 +986,7 @@ M 78540 Q 100000
 (-) lg Q 1627383.4447412174
 (brk)
 ---
-Lehm < 0.5405713556036384
+Lehm < 0.5405713556036384 
 Pi 3.141592653589794
 \end{verbatim}
 
@@ -995,20 +1115,21 @@ $$
 
 We presented the method to build the simple Machin-like identity for any selected
 starting term. We proved that Lehmer's measure of our identity can be made
-arbitrarily small by selecting a single parameter. We presented the practical method and
+arbitrarily small by selecting a single parameter. We presented the practical method, and
 the Python program to compute parameters in our identity, along with the algorithm
-for actual computation of $\pi$ with pre-defined precision.
- 
+for the actual computation of $\pi$ with pre-defined precision.
+
+\section{Acknowledgements}
+
+I am grateful to Dr.~Abrarov,~S.~M. for the discussion of the results.
+
 \section{Special thanks}
 
 \noindent
 To my wife, Ekaterina, for the encouragement to put my findings on paper.
 
-%\noindent
-%To Abrarov et. al.~\cite{abrar}, for historical background and bibliography.
-%
-%\noindent
-%To the open-source community for the tools to compute and create. 
+\noindent
+To the open-source community for the tools to compute and create. 
 
 \begin{thebibliography}{999}
 
