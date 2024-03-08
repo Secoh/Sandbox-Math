@@ -39,31 +39,6 @@ bool mdiv(uint32_t A, uint32_t B, uint32_t& Q, uint32_t& R, uint64_t salt)
         return true;
     }
 
-/*
-    if (B_rank > base_bits)
-    {
-        Q = 0;
-        R = A;
-        return true;
-    }
-
-    if (B_rank == base_bits)
-    {
-        if (A < B)
-        {
-            Q = 0;
-            R = A;
-        }
-        else
-        {
-            Q = 1;
-            R = A - B;
-        }
-
-        return true;
-    }
-*/
-
     // 1. divide base by B
 
     uint64_t x = (uint64_t)1 << (base_bits - B_rank);
