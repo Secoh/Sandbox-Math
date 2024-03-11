@@ -3,7 +3,6 @@
 
 #define _USE_MATH_DEFINES
 #define SKLIB_TARGET_TEST
-//#define SKLIB_MATH_VECTOR_DEBUG_CON
 
 #include <iostream>
 
@@ -12,7 +11,31 @@
 
 int main(int argc, char* argv[])
 {
+    // need something that is not constant
     double two = (argc > 1 ? std::atof(argv[1]) : 2);
+
+    // 2D
+
+    constexpr auto A2 = sklib::Vect2d(3, 5);
+    constexpr auto B2 = sklib::Vect2d(-2, 7);
+
+    constexpr auto X2_01 = A2 + B2;
+    constexpr auto X2_02 = A2 - B2;
+    constexpr auto X2_03 = A2.X() * +B2;
+    constexpr auto X2_04 = B2 * A2.Y();
+    constexpr auto X2_05 = B2 / -0.5;
+    constexpr auto X2_06 = -A2 * B2;
+
+    constexpr auto X2_07 = A2 + ~B2;
+    constexpr auto X2_08 = ~A2 - B2;
+    constexpr auto X2_09 = (+~A2).X() * B2;
+    constexpr auto X2_10 = ~B2 * A2.Y();
+
+    constexpr auto X2_11 = ~A2 * B2;    // note: element-wise operations
+    constexpr auto X2_12 = A2 * ~B2;
+    constexpr auto X2_13 = ~A2 * ~B2;
+
+    // 3D
 
     const sklib::Vect3d abc3 = std::array<double, 3>({ 1, 2, 3 });
 
@@ -43,7 +66,10 @@ int main(int argc, char* argv[])
     auto z1a = b1 * ab3a;
     auto z1b = b1 * ab3b;
 
-    std::cout << z1b << "\n";
+    ab3a %= +~ab3b;
+    //ab3a %= ~ab3b; // error! element-wise operation is requested, operator% is invalid for doubles
+
+    std::cout << z1b << " " << (b1-ab3a).abs() << "\n";
 }
 
 
