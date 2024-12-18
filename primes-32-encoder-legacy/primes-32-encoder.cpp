@@ -1,15 +1,13 @@
 // primes-32-encoder.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// OUTDATED
+
+// This file is candidate for Sklib
+// MIT for now.
 
 #include <iostream>
-
 #include <fstream>
 
-#include <sklib/include/timer.hpp>
-#include <sklib/include/cmdpar.hpp>
-#include <sklib/include/checksum.hpp>
-#include <sklib/include/bitwise.hpp>
-#include <sklib/include/math.hpp>
+#include <sklib/sklib.hpp>
 
 SKLIB_DECLARE_CMD_PARAMS(options_t)
 {

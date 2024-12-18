@@ -14,8 +14,8 @@ int main(int argc, char* argv[])
     // need something that is not constant
     double two = (argc > 1 ? std::atof(argv[1]) : 2);
 
-    // 2D
-
+    // 2D constexpr
+    {
     constexpr auto A2 = sklib::Vect2d(3, 5);
     constexpr auto B2 = sklib::Vect2d(-2, 7);
 
@@ -35,7 +35,35 @@ int main(int argc, char* argv[])
     constexpr auto X2_12 = A2 * ~B2;
     constexpr auto X2_13 = ~A2 * ~B2;
 
-    // 3D
+    constexpr auto X2_14 = A2 % B2;
+    }
+
+    // 3D constexpr
+
+    {
+    constexpr auto A3 = sklib::Vect3d(3, 5, 1);
+    constexpr auto B3 = sklib::Vect3d(-2, 7, 4);
+
+    constexpr auto X3_01 = A3 + B3;
+    constexpr auto X3_02 = A3 - B3;
+    constexpr auto X3_03 = A3.X() * +B3;
+    constexpr auto X3_04 = B3 * A3.Y();
+    constexpr auto X3_05 = B3 / -0.5;
+    constexpr auto X3_06 = -A3 * B3;
+
+    constexpr auto X3_07 = A3 + ~B3;
+    constexpr auto X3_08 = ~A3 - B3;
+    constexpr auto X3_09 = (+~A3).X() * B3;
+    constexpr auto X3_10 = ~B3 * A3.Y();
+
+    constexpr auto X3_11 = ~A3 * B3;    // note: element-wise operations
+    constexpr auto X3_12 = A3 * ~B3;
+    constexpr auto X3_13 = ~A3 * ~B3;
+
+    constexpr auto X3_14 = A3 % B3;
+    }
+
+    // nonconst
 
     const sklib::Vect3d abc3 = std::array<double, 3>({ 1, 2, 3 });
 
